@@ -1,5 +1,9 @@
 # Curso Automatizaciones con Inteligencia Artificial
 
+## Regla de trabajo para las próximas clases
+
+Cada clase nueva se prepara como un paquete de aula con un documento detallado en Markdown y una presentación de diapositivas legible en el TV del aula. Los criterios completos están en [Reglas de trabajo para las próximas clases](REGLAS_DE_TRABAJO.md).
+
 ## Guía de Instalación Paso a Paso
 
 Para poder ver y ejecutar las prácticas del curso en tu computadora, vas a necesitar preparar tu entorno de trabajo. No te preocupes si no tienes mucha experiencia, aquí te explicamos cómo hacerlo paso a paso.
