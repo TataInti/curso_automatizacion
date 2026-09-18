@@ -1,0 +1,5 @@
+# Dependencias directas de los notebooks de las clases 1 y 2.
+llama-cpp-python>=0.3,<0.4
+huggingface_hub>=1,<2
+ipykernel>=7,<8
+ipywidgets

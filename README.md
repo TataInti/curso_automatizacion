@@ -1,156 +1,90 @@
-# Curso Automatizaciones con Inteligencia Artificial
+# IA y automatización aplicada a soporte técnico
 
-## Guía de Instalación Paso a Paso
+Material de capacitación para el equipo de soporte técnico de Casinos Play. Las clases combinan conceptos, casos de trabajo y ejercicios con un modelo de lenguaje local. Los ejemplos usan datos ficticios.
 
-Para poder ver y ejecutar las prácticas del curso en tu computadora, vas a necesitar preparar tu entorno de trabajo. No te preocupes si no tienes mucha experiencia, aquí te explicamos cómo hacerlo paso a paso.
+## Material disponible
 
-### Opción 1: Instalación Automática en Windows (¡Recomendada!)
+| Clase | Guía | Práctica |
+| --- | --- | --- |
+| 1 · Fundamentos de IA generativa | [Leer la guía](clase_01/clase_1_fundamentos_de_ia.md) | [Abrir el notebook](clase_01/clase_1_ejercicio.ipynb) |
+| 2 · Ingeniería de prompt | [Leer la guía](clase_02/clase_2_ingenieria_de_prompt.md) | [Abrir el notebook](clase_02/clase_2_ingenieria_de_prompt.ipynb) |
 
-Esta es la forma más fácil. Hemos creado un asistente que hace todo el trabajo pesado por ti (instalar programas, descargar las clases y configurar todo).
+Las guías explican la clase; los notebooks contienen las actividades para ejecutar y completar. La clase 2 presupone el entorno preparado para la clase 1.
 
-**Paso 1:** Abre el menú de Inicio de Windows.
+## Antes de empezar
 
-**Paso 2:** Escribe `PowerShell`. Verás una aplicación llamada "Windows PowerShell". Haz clic derecho sobre ella y elige **"Ejecutar como administrador"** (te puede pedir confirmación, dile que sí).
+Necesitás Python 3.12, conexión a Internet para instalar los paquetes y descargar el modelo la primera vez, y Visual Studio Code con las extensiones **Python** y **Jupyter** (u otro programa que abra notebooks de Jupyter). El modelo se descarga desde Hugging Face en la primera ejecución y luego queda en la caché local. La inferencia se ejecuta en la computadora, sin usar una API paga. Reservá espacio libre y memoria para el modelo; la descarga y la primera carga pueden tardar varios minutos.
 
-**Paso 3:** Copia el siguiente texto, pégalo en la ventana azul que se abrió y presiona `Enter` (la tecla intro):
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -Command "[Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12; & ([scriptblock]::Create((Invoke-RestMethod 'https://raw.githubusercontent.com/TataInti/clases/main/scripts/setup_windows.ps1')))"
-```
-
-**¿Qué hace este código mágico?**
-Hace todo lo necesario para que no tengas que preocuparte por nada técnico:
-- Instala los programas base si no los tienes (Git, Visual Studio Code y el lenguaje de programación Python 3.12).
-- Configura Visual Studio Code con las herramientas que usaremos.
-- Descarga la última versión de todas las clases del curso.
-- Prepara todas las herramientas de Inteligencia Artificial que vamos a utilizar.
-- Al final, abrirá los archivos solos y todo estará listo para empezar a trabajar.
-
-¡Solo espera a que la pantalla azul termine de trabajar y listo! El material quedará guardado en tu computadora en la carpeta `GitHub\clases` (dentro de tu carpeta principal de usuario).
-
-<details>
-<summary>⚙️ Opciones avanzadas (solo si sabes lo que haces)</summary>
-
-- Si ya tienes la carpeta descargada y solo quieres ejecutar el archivo manualmente:
-  ```powershell
-  powershell -ExecutionPolicy Bypass -File .\scripts\setup_windows.ps1
-  ```
-- Si quieres elegir otra carpeta donde guardar todo (por ejemplo, la carpeta "Cursos"):
-  ```powershell
-  powershell -ExecutionPolicy Bypass -File .\scripts\setup_windows.ps1 -InstallRoot "$env:USERPROFILE\Cursos"
-  ```
-</details>
-
-<details>
-<summary>🔴 ¿El comando falla con un error de red o "no se pudo resolver el nombre"?</summary>
-
-El mensaje `The remote name could not be resolved: 'raw.githubusercontent.com'` significa que tu computadora no pudo conectarse a Internet en ese momento. No es un problema con el script en sí.
-
-**Antes de volver a intentarlo, prueba lo siguiente:**
-
-1. **Verifica tu conexión a Internet.** Abre el navegador y fijate si podés entrar a cualquier página web. Si no entrás a ninguna, el problema es la conexión (WiFi o cable).
-
-2. **Si usás WiFi**, desconéctate y volvé a conectarte a la red. También podés intentar usar los datos móviles de tu celular como punto de acceso (hotspot).
-
-3. **Si el problema persiste**, es posible que el servidor DNS (el "directorio telefónico" de Internet) de tu red esté fallando. Podés solucionarlo cambiando el DNS a uno público:
-   - Abrí el menú de Inicio → escribí `Panel de control` → **Centro de redes y recursos compartidos**.
-   - Hacé clic en tu conexión activa (ej. "WiFi") → **Propiedades**.
-   - Seleccioná **"Protocolo de Internet versión 4 (TCP/IPv4)"** → **Propiedades**.
-   - Marcá **"Usar las siguientes direcciones de servidor DNS"** e ingresá:
-     - Servidor DNS preferido: `8.8.8.8`
-     - Servidor DNS alternativo: `8.8.4.4`
-   - Guardá los cambios y volvé a intentar el comando.
-
-4. **Si estás en una red de empresa o colegio**, puede que un firewall o proxy esté bloqueando la conexión a GitHub. Probá desde una red de casa o con los datos del celular.
-
-5. **Alternativa sin internet:** Si no podés conectarte, usá la **Opción 2: Instalación Manual** que se describe más abajo. Solo necesitarás descargar el material en otro momento o desde otro dispositivo.
-
-</details>
-
----
-
-### Opción 2: Instalación Manual (macOS, Linux o usuarios avanzados de Windows)
-
-Si no usas Windows o prefieres instalar las cosas por tu cuenta, sigue estos pasos:
-
-**Paso 1: Instalar Python**
-
-Primero verificá si ya tenés Python instalado. Abrí una terminal (en Windows buscá `cmd` o `PowerShell` en el menú de Inicio) y escribí:
+En macOS o Linux, el comando de Python puede llamarse `python3.12` en vez de `python`. Comprobá la versión antes de seguir:
 
 ```bash
 python --version
 ```
 
-Si ves algo como `Python 3.12.3`, ya está instalado y podés pasar al Paso 2. Si el comando no se reconoce o la versión es muy vieja (menor a 3.10), seguí estos pasos según tu sistema operativo:
+## Instalación automática en Windows
 
-<details>
-<summary>Windows</summary>
+Si no tenés experiencia preparando el entorno, usá el [instalador de Windows](scripts/setup_windows.ps1). Abrí **PowerShell** desde el menú Inicio y pegá este comando:
 
-La forma más fácil es con `winget` (viene preinstalado en Windows 10/11 moderno). En PowerShell:
 ```powershell
-winget install -e --id Python.Python.3.12
-```
-Cuando termine, **cerrá y volvé a abrir PowerShell** para que Windows reconozca el nuevo comando `python`.
-
-Si `winget` no funciona, descargá el instalador desde [python.org/downloads](https://www.python.org/downloads/). Durante la instalación, **asegurate de tildar la opción "Add Python to PATH"** antes de hacer clic en "Install Now".
-</details>
-
-<details>
-<summary>macOS</summary>
-
-La forma recomendada es con [Homebrew](https://brew.sh). Si no lo tenés, instalalo primero pegando esto en la Terminal:
-```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
-Luego instalá Python:
-```bash
-brew install python@3.12
-```
-</details>
-
-<details>
-<summary>Linux (Ubuntu/Debian)</summary>
-
-```bash
-sudo apt update
-sudo apt install python3.12 python3.12-venv python3-pip -y
-```
-</details>
-
-**Paso 2: Descargar el material del curso**
-Puedes ir al botón verde que dice **"Code"** arriba a la derecha en esta página y elegir **"Download ZIP"** (luego descomprimes la carpeta en tu computadora), o si sabes usar `git`, abre una terminal y clona el repositorio:
-```bash
-git clone https://github.com/TataInti/clases.git
-cd clases
+powershell -NoProfile -ExecutionPolicy Bypass -Command "[Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12; & ([scriptblock]::Create((Invoke-RestMethod 'https://raw.githubusercontent.com/TataInti/curso_automatizacion/main/scripts/setup_windows.ps1')))"
 ```
 
-**Paso 3: Crear un entorno seguro de trabajo (entorno virtual)**
-Para mantener tu computadora ordenada, vamos a crear un espacio aislado solo para las cosas de este curso. Abre una terminal dentro de la carpeta `clases` que acabas de descargar y escribe:
+El instalador comprueba Git, Python 3.12 y Visual Studio Code; instala lo que falte con `winget` o desde python.org, clona este repositorio en `GitHub\curso_automatizacion` dentro de tu carpeta de usuario, crea `.venv`, instala `requirements.txt` y las extensiones de VS Code, y abre la carpeta. Necesitás Internet y acceso para instalar programas. Puede que Windows muestre solicitudes de confirmación. **No hace falta abrir PowerShell como administrador.**
+
+Si ya descargaste el repositorio, abrí PowerShell en esa carpeta y ejecutá:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\setup_windows.ps1
+```
+
+Si falla la instalación de `llama-cpp-python`, puede faltar un compilador de C++. El instalador mostrará el error y cómo continuar. Podés volver a ejecutarlo después de resolverlo; conserva la carpeta y el entorno existentes.
+
+## Descargar el repositorio
+
+En GitHub, elegí **Code → Download ZIP** y descomprimí el archivo. También podés usar Git:
+
 ```bash
+git clone https://github.com/TataInti/curso_automatizacion.git
+cd curso_automatizacion
+```
+
+Abrí una terminal en la carpeta descargada, donde está `requirements.txt`.
+
+## Preparar el entorno en Windows (PowerShell)
+
+```powershell
 py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
-Luego actívalo:
-- En **Windows**: `.venv\Scripts\activate`
-- En **macOS/Linux**: `source .venv/bin/activate`
 
-**Paso 4: Instalar las bibliotecas de Inteligencia Artificial**
-Por último, vamos a instalar todas las herramientas matemáticas y de IA que usamos en las prácticas (como Scikit-learn, Torch y LlamaCPP). Asegúrate de que el entorno esté activado y escribe:
+Si `py -3.12` no encuentra Python, instalá Python 3.12 desde [python.org](https://www.python.org/downloads/) y volvé a abrir PowerShell. No hace falta ejecutar PowerShell como administrador.
+
+## Preparar el entorno en macOS o Linux
+
 ```bash
-pip install -r requirements.txt
+python3.12 -m venv .venv
+.venv/bin/python -m pip install --upgrade pip
+.venv/bin/python -m pip install -r requirements.txt
 ```
 
-¡Eso es todo! Ya puedes abrir los archivos `.ipynb` en Visual Studio Code o en el lector de Jupyter que prefieras.
+Si no tenés Python 3.12, instalalo con el gestor de paquetes de tu sistema o desde [python.org](https://www.python.org/downloads/). En algunas distribuciones de Linux también hace falta instalar el paquete `python3.12-venv`. `llama-cpp-python` puede necesitar herramientas de compilación de C/C++ si no hay un paquete precompilado para tu sistema.
 
-## Notas
+## Abrir y ejecutar las prácticas
 
-- El material puede sufrir cambios a medida que se actualiza el curso.
-- Este repositorio público solo incluye las clases y material didáctico.
-- Los notebooks están en formato Jupyter (.ipynb) y requieren un entorno compatible para su ejecución.
+1. Abrí esta carpeta en Visual Studio Code.
+2. Abrí el notebook de la clase en la tabla anterior.
+3. Elegí como kernel el Python de `.venv` cuando VS Code lo solicite.
+4. Ejecutá las celdas en orden. La primera descarga del modelo requiere Internet.
 
-## Contribuciones
+El notebook busca el archivo `Q4_K_M` del modelo público [`LiquidAI/LFM2.5-1.2B-Instruct-GGUF`](https://huggingface.co/LiquidAI/LFM2.5-1.2B-Instruct-GGUF). Si falla la descarga, verificá la conexión y volvé a ejecutar la celda. Si aparece `ModuleNotFoundError`, comprobá que el kernel seleccionado sea `.venv` y que la instalación de `requirements.txt` haya terminado sin errores.
 
-Este es un repositorio educativo creado por Inti Palacio Fernandez. Si encuentras errores o tienes sugerencias, por favor contacta al instructor.
+Las respuestas del modelo son material para observar y discutir: pueden variar y contener errores. No ingreses credenciales, datos personales ni información real sensible en las prácticas.
+
+## Estado del material
+
+Actualmente están publicadas las clases 1 y 2. El contenido puede actualizarse a medida que avance el curso.
 
 ## Licencia
 
-MIT
+Este material se distribuye bajo la [licencia MIT](LICENSE).
