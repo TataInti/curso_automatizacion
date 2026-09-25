@@ -8,6 +8,7 @@ Material de capacitación para el equipo de soporte técnico de Casinos Play. La
 | --- | --- | --- |
 | 1 · Fundamentos de IA generativa | [Leer la guía](clase_01/clase_1_fundamentos_de_ia.md) | [Abrir el notebook](clase_01/clase_1_ejercicio.ipynb) |
 | 2 · Ingeniería de prompt | [Leer la guía](clase_02/clase_2_ingenieria_de_prompt.md) | [Abrir el notebook](clase_02/clase_2_ingenieria_de_prompt.ipynb) |
+| 3 · IA aplicada al trabajo de soporte | [Leer la guía](clase_03/clase_3_laboratorio_prompts.md) · |
 
 Las guías explican la clase; los notebooks contienen las actividades para ejecutar y completar. La clase 2 presupone el entorno preparado para la clase 1.
 
@@ -83,7 +84,7 @@ Las respuestas del modelo son material para observar y discutir: pueden variar y
 
 ## Estado del material
 
-Actualmente están publicadas las clases 1 y 2. El contenido puede actualizarse a medida que avance el curso.
+Actualmente están publicadas las clases 1, 2 y 3. El contenido puede actualizarse a medida que avance el curso.
 
 ## Licencia
 
