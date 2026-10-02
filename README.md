@@ -1,6 +1,6 @@
 # IA y automatización aplicada a soporte técnico
 
-Material de capacitación para el equipo de soporte técnico de Casinos Play. Las clases combinan conceptos, casos de trabajo y ejercicios con un modelo de lenguaje local. Los ejemplos usan datos ficticios.
+Material de capacitación para el equipo de soporte técnico de Casinos Play. Las clases combinan conceptos, casos de trabajo y actividades prácticas; algunas utilizan un modelo de lenguaje local. Los ejemplos usan datos ficticios.
 
 ## Material disponible
 
@@ -8,9 +8,10 @@ Material de capacitación para el equipo de soporte técnico de Casinos Play. La
 | --- | --- | --- |
 | 1 · Fundamentos de IA generativa | [Leer la guía](clase_01/clase_1_fundamentos_de_ia.md) | [Abrir el notebook](clase_01/clase_1_ejercicio.ipynb) |
 | 2 · Ingeniería de prompt | [Leer la guía](clase_02/clase_2_ingenieria_de_prompt.md) | [Abrir el notebook](clase_02/clase_2_ingenieria_de_prompt.ipynb) |
-| 3 · IA aplicada al trabajo de soporte | [Leer la guía](clase_03/clase_3_laboratorio_prompts.md) · |
+| 3 · Visual Studio Code, Copilot, agentes y skills | [Leer la guía](clase_03/clase_3_vscode_y_copilot.md) | [Abrir la práctica](clase_03/practica_chatbot/README.md) |
+| 4 · Pensamiento de procesos y automatización | [Leer la guía](clase_04/clase_4_pensamiento_de_procesos_y_automatizacion.md) | Ficha integrada en la guía |
 
-Las guías explican la clase; los notebooks contienen las actividades para ejecutar y completar. La clase 2 presupone el entorno preparado para la clase 1.
+Las guías explican el recorrido y las actividades de cada clase. Algunas prácticas incluyen notebooks para ejecutar y completar; la Clase 4 se trabaja con una ficha integrada en la guía. La clase 2 presupone el entorno preparado para la clase 1.
 
 ## Antes de empezar
 
@@ -84,7 +85,7 @@ Las respuestas del modelo son material para observar y discutir: pueden variar y
 
 ## Estado del material
 
-Actualmente están publicadas las clases 1, 2 y 3. El contenido puede actualizarse a medida que avance el curso.
+Actualmente están publicadas las clases 1, 2, 3 y 4. El contenido puede actualizarse a medida que avance el curso.
 
 ## Licencia
 
