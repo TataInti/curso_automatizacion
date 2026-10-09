@@ -1,0 +1,37 @@
+{
+  "caso": "Solicitud ficticia por una impresora de práctica",
+  "entrada": {
+    "solicitud_id": "PRACTICA-001",
+    "equipo": "Impresora de tickets de práctica",
+    "ubicacion": "Sector de práctica",
+    "problema_informado": "La impresión de prueba sale con franjas.",
+    "equipos_afectados": 1,
+    "informacion_confirmada": true,
+    "codigo_equipo": null
+  },
+  "respuesta": {
+    "solicitud_id": "PRACTICA-001",
+    "estado": "recibida",
+    "mensaje": "La solicitud quedó registrada para su revisión.",
+    "ubicacion": "Sector de práctica"
+  },
+  "variantes": {
+    "valor_cambiado": {
+      "solicitud_id": "PRACTICA-002",
+      "equipo": "Impresora de tickets de práctica",
+      "ubicacion": "Otro sector de práctica",
+      "problema_informado": "La impresión de prueba sale con franjas.",
+      "equipos_afectados": 2,
+      "informacion_confirmada": true,
+      "codigo_equipo": null
+    },
+    "dato_faltante": {
+      "solicitud_id": "PRACTICA-003",
+      "equipo": "Impresora de tickets de práctica",
+      "problema_informado": "La impresión de prueba sale con franjas.",
+      "equipos_afectados": 1,
+      "informacion_confirmada": true,
+      "codigo_equipo": null
+    }
+  }
+}
