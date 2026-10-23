@@ -1,0 +1,299 @@
+{
+  "name": "Clase 7 - Registro de inscripciones con IF",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "n1-manual-trigger-0000-0000-000000000001",
+      "name": "Inicio manual",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [-980, 0]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f1-inscripcion-id",
+              "name": "inscripcion_id",
+              "value": "INS-001",
+              "type": "string"
+            },
+            {
+              "id": "f2-nombre",
+              "name": "nombre",
+              "value": "Lucía Gómez",
+              "type": "string"
+            },
+            {
+              "id": "f3-email",
+              "name": "email",
+              "value": "lucia@example.com",
+              "type": "string"
+            },
+            {
+              "id": "f4-taller",
+              "name": "taller",
+              "value": "Introducción a n8n",
+              "type": "string"
+            },
+            {
+              "id": "f5-modalidad",
+              "name": "modalidad",
+              "value": "presencial",
+              "type": "string"
+            },
+            {
+              "id": "f6-cantidad",
+              "name": "cantidad_asistentes",
+              "value": 1,
+              "type": "number"
+            },
+            {
+              "id": "f7-confirmada",
+              "name": "confirmada",
+              "value": true,
+              "type": "boolean"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "n2-cargar-0000-0000-000000000002",
+      "name": "Cargar inscripción",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [-760, 0]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f8-estado",
+              "name": "estado",
+              "value": "registrada",
+              "type": "string"
+            },
+            {
+              "id": "f9-mensaje",
+              "name": "mensaje",
+              "value": "=Hola {{ $json.nombre }}, tu inscripción fue registrada.",
+              "type": "string"
+            }
+          ],
+          "includeOtherFields": true
+        },
+        "options": {}
+      },
+      "id": "n3-completar-0000-0000-000000000003",
+      "name": "Completar registro",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [-540, 0]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f10-salida-1",
+              "name": "inscripcion_id",
+              "value": "={{ $json.inscripcion_id }}",
+              "type": "string"
+            },
+            {
+              "id": "f11-salida-2",
+              "name": "estado",
+              "value": "={{ $json.estado }}",
+              "type": "string"
+            },
+            {
+              "id": "f12-salida-3",
+              "name": "taller",
+              "value": "={{ $json.taller }}",
+              "type": "string"
+            },
+            {
+              "id": "f13-salida-4",
+              "name": "modalidad",
+              "value": "={{ $json.modalidad }}",
+              "type": "string"
+            },
+            {
+              "id": "f14-salida-5",
+              "name": "cantidad_asistentes",
+              "value": "={{ $json.cantidad_asistentes }}",
+              "type": "number"
+            },
+            {
+              "id": "f15-salida-6",
+              "name": "confirmada",
+              "value": "={{ $json.confirmada }}",
+              "type": "boolean"
+            },
+            {
+              "id": "f16-salida-7",
+              "name": "mensaje",
+              "value": "={{ $json.mensaje }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "n4-preparar-0000-0000-000000000004",
+      "name": "Preparar confirmación",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [-320, 0]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c1-modalidad",
+              "leftValue": "={{ $json.modalidad }}",
+              "rightValue": "presencial",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "n5-if-0000-0000-000000000005",
+      "name": "¿Modalidad presencial?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [-100, 0]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f17-presencial",
+              "name": "mensaje_final",
+              "value": "=Hola {{ $json.nombre }}, tu lugar en la modalidad presencial está confirmado.",
+              "type": "string"
+            }
+          ],
+          "includeOtherFields": true
+        },
+        "options": {}
+      },
+      "id": "n6-presencial-0000-0000-000000000006",
+      "name": "Confirmación presencial",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [140, -180]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f18-remota",
+              "name": "mensaje_final",
+              "value": "=Hola {{ $json.nombre }}, tu lugar en la modalidad remota está confirmado. Te enviaremos el enlace por correo.",
+              "type": "string"
+            }
+          ],
+          "includeOtherFields": true
+        },
+        "options": {}
+      },
+      "id": "n7-remota-0000-0000-000000000007",
+      "name": "Confirmación remota",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [140, 180]
+    }
+  ],
+  "connections": {
+    "Inicio manual": {
+      "main": [
+        [
+          {
+            "node": "Cargar inscripción",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cargar inscripción": {
+      "main": [
+        [
+          {
+            "node": "Completar registro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Completar registro": {
+      "main": [
+        [
+          {
+            "node": "Preparar confirmación",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar confirmación": {
+      "main": [
+        [
+          {
+            "node": "¿Modalidad presencial?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Modalidad presencial?": {
+      "main": [
+        [
+          {
+            "node": "Confirmación presencial",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Confirmación remota",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "active": false,
+  "versionId": "00000000-0000-0000-0000-000000000001",
+  "tags": []
+}

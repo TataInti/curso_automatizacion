@@ -10,8 +10,11 @@ Material de capacitación para el equipo de soporte técnico de Casinos Play. La
 | 2 · Ingeniería de prompt | [Leer la guía](clase_02/clase_2_ingenieria_de_prompt.md) | [Abrir el notebook](clase_02/clase_2_ingenieria_de_prompt.ipynb) |
 | 3 · Visual Studio Code, Copilot, agentes y skills | [Leer la guía](clase_03/clase_3_vscode_y_copilot.md) | [Abrir la práctica](clase_03/practica_chatbot/README.md) |
 | 4 · Pensamiento de procesos y automatización | [Leer la guía](clase_04/clase_4_pensamiento_de_procesos_y_automatizacion.md) | Ficha integrada en la guía |
+| 5 · Cómo hablan los sistemas | [Leer la guía](clase_05/clase_5_como_hablan_los_sistemas.md) | [Ejemplos de integraciones](clase_05/ejemplos_integraciones.json) |
+| 6 · Primeros pasos con n8n | [Leer la guía](clase_06/clase_6_primeros_pasos_con_n8n.md) | [Entorno n8n local](clase_06/n8n/README.md) |
+| 7 · Decisiones con IF | [Leer la guía](clase_07/clase_7_decisiones_con_if.md) | [Workflow con IF](clase_07/n8n/Clase%207%20-%20Workflow%20de%20inscripciones%20con%20IF.json) |
 
-Las guías explican el recorrido y las actividades de cada clase. Algunas prácticas incluyen notebooks para ejecutar y completar; la Clase 4 se trabaja con una ficha integrada en la guía. La clase 2 presupone el entorno preparado para la clase 1.
+Las guías explican el recorrido y las actividades de cada clase. Algunas prácticas incluyen notebooks para ejecutar y completar; la Clase 4 se trabaja con una ficha integrada en la guía. La clase 2 presupone el entorno preparado para la clase 1. Las clases 6 y 7 usan n8n con Docker; la clase 7 retoma el workflow de inscripciones y agrega una decisión con el nodo IF.
 
 ## Antes de empezar
 
