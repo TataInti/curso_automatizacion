@@ -13,8 +13,10 @@ Material de capacitación para el equipo de soporte técnico de Casinos Play. La
 | 5 · Cómo hablan los sistemas | [Leer la guía](clase_05/clase_5_como_hablan_los_sistemas.md) | [Ejemplos de integraciones](clase_05/ejemplos_integraciones.json) |
 | 6 · Primeros pasos con n8n | [Leer la guía](clase_06/clase_6_primeros_pasos_con_n8n.md) | [Entorno n8n local](clase_06/n8n/README.md) |
 | 7 · Decisiones con IF | [Leer la guía](clase_07/clase_7_decisiones_con_if.md) | [Workflow con IF](clase_07/n8n/Clase%207%20-%20Workflow%20de%20inscripciones%20con%20IF.json) |
+| 8 · Incorporación de IA en workflows | [Leer la guía](clase_08/clase_8_incorporacion_de_ia_en_workflows.md) | [Workflow con IA](clase_08/n8n/Clase%208%20-%20Inscripciones%20con%20IA.json) · [Contratos y prompts](clase_08/n8n/Clase%208%20-%20Contrato%20y%20prompts%20de%20IA.json) |
+| 10 · Workflows avanzados | [Leer la guía](clase_10/clase_10_workflows_avanzados.md) | [Workflow con loop y errores](clase_10/n8n/Clase%2010%20-%20Inscripciones%20con%20loop%20y%20errores.json) |
 
-Las guías explican el recorrido y las actividades de cada clase. Algunas prácticas incluyen notebooks para ejecutar y completar; la Clase 4 se trabaja con una ficha integrada en la guía. La clase 2 presupone el entorno preparado para la clase 1. Las clases 6 y 7 usan n8n con Docker; la clase 7 retoma el workflow de inscripciones y agrega una decisión con el nodo IF.
+Las guías explican el recorrido y las actividades de cada clase. Algunas prácticas incluyen notebooks para ejecutar y completar; la Clase 4 se trabaja con una ficha integrada en la guía. La clase 2 presupone el entorno preparado para la clase 1. Las clases 6 en adelante usan n8n con Docker; la clase 7 agrega una decisión con el nodo IF, la clase 8 incorpora un modelo de IA dentro del workflow (requiere una clave de API de OpenRouter) y la clase 10 suma loops, manejo de errores, logs y subworkflows sobre el mismo caso de inscripciones.
 
 ## Antes de empezar
 
@@ -88,7 +90,7 @@ Las respuestas del modelo son material para observar y discutir: pueden variar y
 
 ## Estado del material
 
-Actualmente están publicadas las clases 1, 2, 3 y 4. El contenido puede actualizarse a medida que avance el curso.
+Están publicadas las guías de las clases 1 a 8 y la clase 10, según el orden del [temario](lineamientos/temario_capacitacion.md). El contenido puede actualizarse a medida que avance el curso.
 
 ## Licencia
 

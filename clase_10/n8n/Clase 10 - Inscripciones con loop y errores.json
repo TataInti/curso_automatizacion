@@ -1,0 +1,228 @@
+{
+  "name": "Clase 8 - Inscripciones con loop y errores",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "n1-manual-0000-0000-000000000001",
+      "name": "Inicio manual",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [-1580, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  { json: { inscripcion_id: \"INS-001\", nombre: \"Lucía Gómez\", email: \"lucia@example.com\", taller: \"Introducción a n8n\", modalidad: \"presencial\", cantidad_asistentes: 1, confirmada: false, estado: \"pendiente\", mensaje: \"\" } },\n  { json: { inscripcion_id: \"INS-002\", nombre: \"Martín Rojas\", email: \"martin@example.com\", taller: \"Automatizaciones para equipos\", modalidad: \"virtual\", cantidad_asistentes: 2, confirmada: false, estado: \"pendiente\", mensaje: \"\" } },\n  { json: { inscripcion_id: \"INS-003\", nombre: \"Ana Pérez\", email: \"\", taller: \"IA para soporte\", modalidad: \"presencial\", cantidad_asistentes: 1, confirmada: false, estado: \"pendiente\", mensaje: \"\" } },\n  { json: { inscripcion_id: \"INS-004\", nombre: \"Jorge Díaz\", email: \"jorge@example.com\", taller: \"Redes para soporte\", modalidad: \"virtual\", cantidad_asistentes: 0, confirmada: false, estado: \"pendiente\", mensaje: \"\" } }\n];"
+      },
+      "id": "n2-lote-0000-0000-000000000002",
+      "name": "Lote de inscripciones",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-1360, 0]
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "n3-loop-0000-0000-000000000003",
+      "name": "Procesar lote",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [-1140, 0]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c1-email",
+              "leftValue": "={{ $json.email }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEqual",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "n4-validar-0000-0000-000000000004",
+      "name": "¿Es válida?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [-920, 0]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f12-ok-evento",
+              "name": "tipo_evento",
+              "value": "ok",
+              "type": "string"
+            },
+            {
+              "id": "f13-ok-inscripcion",
+              "name": "inscripcion_id",
+              "value": "={{ $json.inscripcion_id }}",
+              "type": "string"
+            },
+            {
+              "id": "f14-ok-modalidad",
+              "name": "modalidad",
+              "value": "={{ $json.modalidad }}",
+              "type": "string"
+            },
+            {
+              "id": "f15-ok-fecha",
+              "name": "fecha",
+              "value": "={{ $now.toISOString() }}",
+              "type": "string"
+            }
+          ],
+          "includeOtherFields": true
+        },
+        "options": {}
+      },
+      "id": "n5-log-ok-0000-0000-000000000005",
+      "name": "Registrar log",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [-480, -160]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f16-err-evento",
+              "name": "tipo_evento",
+              "value": "error",
+              "type": "string"
+            },
+            {
+              "id": "f17-err-inscripcion",
+              "name": "inscripcion_id",
+              "value": "={{ $json.inscripcion_id }}",
+              "type": "string"
+            },
+            {
+              "id": "f18-err-detalle",
+              "name": "detalle",
+              "value": "={{ $json.estado }}",
+              "type": "string"
+            },
+            {
+              "id": "f19-err-fecha",
+              "name": "fecha",
+              "value": "={{ $now.toISOString() }}",
+              "type": "string"
+            }
+          ],
+          "includeOtherFields": true
+        },
+        "options": {}
+      },
+      "id": "n6-error-0000-0000-000000000006",
+      "name": "Registrar error",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [-480, 180]
+    }
+  ],
+  "connections": {
+    "Inicio manual": {
+      "main": [
+        [
+          {
+            "node": "Lote de inscripciones",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lote de inscripciones": {
+      "main": [
+        [
+          {
+            "node": "Procesar lote",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Procesar lote": {
+      "main": [
+        [
+          {
+            "node": "¿Es válida?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Es válida?": {
+      "main": [
+        [
+          {
+            "node": "Registrar log",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Registrar error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Registrar log": {
+      "main": [
+        [
+          {
+            "node": "Procesar lote",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Registrar error": {
+      "main": [
+        [
+          {
+            "node": "Procesar lote",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "active": false,
+  "versionId": "00000000-0000-0000-0000-000000000002",
+  "tags": []
+}

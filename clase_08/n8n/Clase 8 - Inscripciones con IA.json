@@ -1,0 +1,312 @@
+{
+  "name": "Clase 8 - Inscripciones con IA",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "n1-manual-0000-0000-000000000001",
+      "name": "Inicio manual",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [-980, 0]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f1-inscripcion-id",
+              "name": "inscripcion_id",
+              "value": "INS-001",
+              "type": "string"
+            },
+            {
+              "id": "f2-nombre",
+              "name": "nombre",
+              "value": "Lucía Gómez",
+              "type": "string"
+            },
+            {
+              "id": "f3-email",
+              "name": "email",
+              "value": "lucia@example.com",
+              "type": "string"
+            },
+            {
+              "id": "f4-taller",
+              "name": "taller",
+              "value": "Introducción a n8n",
+              "type": "string"
+            },
+            {
+              "id": "f5-modalidad",
+              "name": "modalidad",
+              "value": "presencial",
+              "type": "string"
+            },
+            {
+              "id": "f6-cantidad",
+              "name": "cantidad_asistentes",
+              "value": 1,
+              "type": "number"
+            },
+            {
+              "id": "f7-confirmada",
+              "name": "confirmada",
+              "value": true,
+              "type": "boolean"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "n2-cargar-0000-0000-000000000002",
+      "name": "Cargar inscripción",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [-760, 0]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f8-estado",
+              "name": "estado",
+              "value": "registrada",
+              "type": "string"
+            },
+            {
+              "id": "f9-mensaje",
+              "name": "mensaje",
+              "value": "=Hola {{ $json.nombre }}, tu inscripción fue registrada.",
+              "type": "string"
+            }
+          ],
+          "includeOtherFields": true
+        },
+        "options": {}
+      },
+      "id": "n3-completar-0000-0000-000000000003",
+      "name": "Completar registro",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [-540, 0]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f10-preparar",
+              "name": "mensaje_final",
+              "value": "=Confirmación pendiente para {{ $json.nombre }} ({{ $json.modalidad }})",
+              "type": "string"
+            }
+          ],
+          "includeOtherFields": true
+        },
+        "options": {}
+      },
+      "id": "n4-preparar-0000-0000-000000000004",
+      "name": "Preparar confirmación",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [-320, 0]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c1-modalidad",
+              "leftValue": "={{ $json.modalidad }}",
+              "rightValue": "presencial",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "n5-if-0000-0000-000000000005",
+      "name": "¿Modalidad presencial?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [-100, 0]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "Datos de la inscripción:\n- Nombre: {{ $json.nombre }}\n- Taller: {{ $json.taller }}\n- Modalidad: {{ $json.modalidad }}\n\nRedactá el mensaje de confirmación para la modalidad presencial.",
+        "options": {
+          "systemMessage": "Sos el sistema de confirmaciones de inscripciones de un casino. Redactá en una sola línea un mensaje en español, cordial y claro, que confirme el lugar en la modalidad presencial. Respondé únicamente con el texto del mensaje, sin comillas, sin saludos previos ni explicaciones."
+        }
+      },
+      "id": "n6-ia-presencial-0000-0000-000000000006",
+      "name": "IA · redactar presencial",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [160, -160]
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-4o-mini",
+        "options": {
+          "temperature": 0.2,
+          "maxTokens": 1200
+        }
+      },
+      "id": "n6b-modelo-presencial-0000-0000-000000000006",
+      "name": "Modelo · presencial",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [160, -340],
+      "credentials": {
+        "openRouterApi": {
+          "id": "REEMPLAZAR-CON-MI-CREDENCIAL",
+          "name": "OpenRouter clase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "Datos de la inscripción:\n- Nombre: {{ $json.nombre }}\n- Taller: {{ $json.taller }}\n- Modalidad: {{ $json.modalidad }}\n\nRedactá el mensaje de confirmación para la modalidad remota.",
+        "options": {
+          "systemMessage": "Sos el sistema de confirmaciones de inscripciones de un casino. Redactá en una sola línea un mensaje en español, cordial y claro, que confirme el lugar en la modalidad remota e indique que el enlace se enviará por correo. Respondé únicamente con el texto del mensaje, sin comillas, sin saludos previos ni explicaciones."
+        }
+      },
+      "id": "n7-ia-remota-0000-0000-000000000007",
+      "name": "IA · redactar remota",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [160, 160]
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-4o-mini",
+        "options": {
+          "temperature": 0.2,
+          "maxTokens": 1200
+        }
+      },
+      "id": "n7b-modelo-remota-0000-0000-000000000007",
+      "name": "Modelo · remota",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [160, 340],
+      "credentials": {
+        "openRouterApi": {
+          "id": "REEMPLAZAR-CON-MI-CREDENCIAL",
+          "name": "OpenRouter clase"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Inicio manual": {
+      "main": [
+        [
+          {
+            "node": "Cargar inscripción",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cargar inscripción": {
+      "main": [
+        [
+          {
+            "node": "Completar registro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Completar registro": {
+      "main": [
+        [
+          {
+            "node": "Preparar confirmación",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar confirmación": {
+      "main": [
+        [
+          {
+            "node": "¿Modalidad presencial?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Modalidad presencial?": {
+      "main": [
+        [
+          {
+            "node": "IA · redactar presencial",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "IA · redactar remota",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Modelo · presencial": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "IA · redactar presencial",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Modelo · remota": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "IA · redactar remota",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "active": false,
+  "versionId": "00000000-0000-0000-0000-000000000004",
+  "tags": []
+}

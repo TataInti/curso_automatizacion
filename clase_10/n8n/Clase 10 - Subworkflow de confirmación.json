@@ -1,0 +1,127 @@
+{
+  "name": "Clase 8 - Subworkflow de confirmación",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "n1-trigger-0000-0000-000000000001",
+      "name": "Cuando me ejecutan",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [-220, 0]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c1-modalidad",
+              "leftValue": "={{ $json.modalidad }}",
+              "rightValue": "presencial",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "n2-if-0000-0000-000000000002",
+      "name": "¿Modalidad presencial?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f1-presencial",
+              "name": "mensaje_final",
+              "value": "=Hola {{ $json.nombre }}, tu lugar en la modalidad presencial está confirmado.",
+              "type": "string"
+            }
+          ],
+          "includeOtherFields": true
+        },
+        "options": {}
+      },
+      "id": "n3-presencial-0000-0000-000000000003",
+      "name": "Confirmación presencial",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [220, -160]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f2-remota",
+              "name": "mensaje_final",
+              "value": "=Hola {{ $json.nombre }}, tu lugar en la modalidad remota está confirmado. Te enviaremos el enlace por correo.",
+              "type": "string"
+            }
+          ],
+          "includeOtherFields": true
+        },
+        "options": {}
+      },
+      "id": "n4-remota-0000-0000-000000000004",
+      "name": "Confirmación remota",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [220, 160]
+    }
+  ],
+  "connections": {
+    "Cuando me ejecutan": {
+      "main": [
+        [
+          {
+            "node": "¿Modalidad presencial?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Modalidad presencial?": {
+      "main": [
+        [
+          {
+            "node": "Confirmación presencial",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Confirmación remota",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "active": false,
+  "versionId": "00000000-0000-0000-0000-000000000003",
+  "tags": []
+}

@@ -1,0 +1,111 @@
+{
+  "tipo_documento": "material_didactico",
+  "uso": "Referencia para leer y copiar prompts y contratos durante la construcción manual (clase 8)",
+  "advertencia": "Este archivo es documental y no contiene nodos ni conexiones de n8n. No incluye API keys.",
+  "proveedor": "OpenRouter",
+  "configuracion_n8n": {
+    "tipo_credencial": "OpenRouter API",
+    "campo": "API Key",
+    "formato_clave": "sk-or-...",
+    "sitio": "https://openrouter.ai/keys",
+    "modelos_sugeridos": [
+      "openai/gpt-4o-mini",
+      "anthropic/claude-3.5-haiku",
+      "meta-llama/llama-3.1-8b-instruct:free"
+    ]
+  },
+  "contrato_entrada": [
+    {
+      "nombre": "inscripcion_id",
+      "tipo": "string",
+      "ejemplo": "INS-001"
+    },
+    {
+      "nombre": "nombre",
+      "tipo": "string",
+      "ejemplo": "Lucía Gómez"
+    },
+    {
+      "nombre": "email",
+      "tipo": "string",
+      "ejemplo": "lucia@example.com"
+    },
+    {
+      "nombre": "taller",
+      "tipo": "string",
+      "ejemplo": "Introducción a n8n"
+    },
+    {
+      "nombre": "modalidad",
+      "tipo": "string",
+      "ejemplo": "presencial"
+    },
+    {
+      "nombre": "cantidad_asistentes",
+      "tipo": "number",
+      "ejemplo": 1
+    },
+    {
+      "nombre": "confirmada",
+      "tipo": "boolean",
+      "ejemplo": true
+    }
+  ],
+  "prompts_de_ejemplo": {
+    "redactar_confirmacion_presencial": {
+      "rol": "system",
+      "texto": "Sos el sistema de confirmaciones de inscripciones de un casino.\nRedactá en una sola línea un mensaje en español, cordial y claro, para la inscripción siguiente.\n\nDatos:\n- Nombre: {{ $json.nombre }}\n- Taller: {{ $json.taller }}\n- Modalidad: {{ $json.modalidad }}\n\nEl mensaje debe confirmar el lugar en la modalidad presencial.\n\nRespondé únicamente con el texto del mensaje, sin comillas, sin saludos previos ni explicaciones."
+    },
+    "redactar_confirmacion_remota": {
+      "rol": "system",
+      "texto": "Sos el sistema de confirmaciones de inscripciones de un casino.\nRedactá en una sola línea un mensaje en español, cordial y claro, para la inscripción siguiente.\n\nDatos:\n- Nombre: {{ $json.nombre }}\n- Taller: {{ $json.taller }}\n- Modalidad: {{ $json.modalidad }}\n\nEl mensaje debe confirmar el lugar en la modalidad remota e indicar que el enlace se enviará por correo.\n\nRespondé únicamente con el texto del mensaje, sin comillas, sin saludos previos ni explicaciones."
+    },
+    "clasificar_solicitud": {
+      "rol": "system",
+      "texto": "Clasificá la siguiente solicitud de soporte en una de estas tres categorías: FALLA, CONSULTA, PEDIDO.\n\nRespondé únicamente con una de las tres palabras, en mayúsculas.\n\nSolicitud: {{ $json.mensaje }}"
+    },
+    "resumir_parte": {
+      "rol": "system",
+      "texto": "Resumí en hasta tres viñetas el siguiente parte, sin inventar datos:\n\n{{ $json.parte }}"
+    },
+    "extraer_datos_ticket": {
+      "rol": "system",
+      "texto": "Del siguiente texto extraé: número de ticket, equipo afectado y prioridad.\nRespondé en JSON con los campos ticket, equipo y prioridad.\n\nTexto: {{ $json.detalle }}"
+    }
+  },
+  "salida_esperada_redaccion": {
+    "descripcion": "El AI Agent devuelve la respuesta del modelo; el nombre exacto del campo se confirma al ejecutar el nodo y mirar el OUTPUT.",
+    "ejemplo": "Hola Lucía Gómez, tu lugar en la modalidad presencial está confirmado."
+  },
+  "casos_de_prueba": [
+    {
+      "inscripcion_id": "INS-001",
+      "nombre": "Lucía Gómez",
+      "taller": "Introducción a n8n",
+      "modalidad": "presencial",
+      "mensaje": "Mi impresora de tickets no imprime desde esta mañana",
+      "categoria_esperada": "FALLA"
+    },
+    {
+      "inscripcion_id": "INS-002",
+      "nombre": "Martín Rojas",
+      "taller": "Automatizaciones para equipos",
+      "modalidad": "virtual",
+      "mensaje": "Quisiera saber el horario de mantenimiento de las cámaras",
+      "categoria_esperada": "CONSULTA"
+    },
+    {
+      "inscripcion_id": "INS-003",
+      "nombre": "Ana Pérez",
+      "taller": "IA para soporte",
+      "modalidad": "presencial",
+      "mensaje": "Solicito la instalación de un segundo monitor en la sala de CCTV",
+      "categoria_esperada": "PEDIDO"
+    }
+  ],
+  "referencias": [
+    "https://openrouter.ai/keys",
+    "https://docs.n8n.io/integrations/builtin/credentials/openrouter/",
+    "https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.agent/"
+  ]
+}
