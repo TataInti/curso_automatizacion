@@ -1,0 +1,30 @@
+{
+  "descripcion": "Registros ficticios para la tabla equipos_clase9 de la clase 9. No contienen datos reales.",
+  "equipos": [
+    {
+      "codigo": "CAM-01",
+      "ubicacion": "Recepción",
+      "estado": "operativa",
+      "nota_interna": "Control mensual OK"
+    },
+    {
+      "codigo": "CAM-02",
+      "ubicacion": "Pasillo",
+      "estado": "sin señal",
+      "nota_interna": "Verificar alimentación y conexión"
+    },
+    {
+      "codigo": "CAM-03",
+      "ubicacion": "Salón de juegos",
+      "estado": "operativa",
+      "nota_interna": "Lente con polvo"
+    }
+  ],
+  "pedido_de_prueba": "GET /webhook/inventario/equipos?codigo=CAM-02",
+  "respuesta_esperada": {
+    "codigo": "CAM-02",
+    "ubicacion": "Pasillo",
+    "estado": "sin señal"
+  },
+  "nota": "La respuesta incluye solo tres campos. nota_interna queda en la tabla porque el nodo Edit Fields no la publica."
+}
