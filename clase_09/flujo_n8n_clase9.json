@@ -1,0 +1,80 @@
+{
+  "clase": "Clase 9: Integración con sistemas mediante una API",
+  "duracion_minutos": 90,
+  "objetivo": "Consultar desde un workflow de Seguimiento el estado de una cámara guardado en Inventario, sin compartir la nota interna.",
+  "preparacion": [
+    "Iniciar Docker Desktop y n8n según las instrucciones de la clase 6.",
+    "Usar únicamente los datos ficticios de clase_09/datos_inventario.json."
+  ],
+  "flujo": [
+    {
+      "minutos": "0-10",
+      "etapa": "Presentar el caso y la meta",
+      "actividad": "Una cámara del pasillo aparece sin señal. Se necesita consultar su ubicación y estado en el inventario.",
+      "resultado": "El grupo sabe qué consulta se va a construir y que el dato no confirma la causa de la falla."
+    },
+    {
+      "minutos": "10-25",
+      "etapa": "Preparar Inventario",
+      "actividad": "Crear la tabla equipos_clase9 con las columnas codigo, ubicacion, estado y nota_interna. Cargar los tres registros ficticios.",
+      "checkpoint": "La tabla tiene tres filas. CAM-02 figura en Pasillo y sin señal.",
+      "precaucion": "Ejecutar la carga una sola vez para evitar filas repetidas."
+    },
+    {
+      "minutos": "25-50",
+      "etapa": "Construir la API de Inventario",
+      "flujo_nodos": [
+        "Webhook: GET, ruta inventario/equipos",
+        "Data Table: buscar la fila donde codigo sea igual a {{ $json.query.codigo }}",
+        "Edit Fields: devolver solamente codigo, ubicacion y estado",
+        "Respond to Webhook: responder con el JSON recibido"
+      ],
+      "actividad": "Publicar o activar el workflow y copiar su Production URL.",
+      "checkpoint": "La API está activa y la respuesta no incluye nota_interna."
+    },
+    {
+      "minutos": "50-60",
+      "etapa": "Probar desde el navegador",
+      "actividad": "Consultar la Production URL con el parámetro codigo=CAM-02 y luego probar codigo=CAM-99.",
+      "resultado_esperado": "CAM-02 devuelve codigo, ubicacion y estado. CAM-99 puede devolver una respuesta vacía o un error.",
+      "pregunta": "¿Qué sabemos y qué falta verificar cuando el código no existe?"
+    },
+    {
+      "minutos": "60-78",
+      "etapa": "Construir Seguimiento",
+      "flujo_nodos": [
+        "Manual Trigger",
+        "HTTP Request: método GET, Production URL y parámetro codigo=CAM-02"
+      ],
+      "actividad": "Ejecutar el workflow y revisar el OUTPUT. Agregar el parámetro columna=nota_interna y ejecutar otra vez.",
+      "checkpoint": "La respuesta sigue mostrando únicamente codigo, ubicacion y estado."
+    },
+    {
+      "minutos": "78-90",
+      "etapa": "Puesta en común y cierre",
+      "preguntas": [
+        "¿Qué dato envió Seguimiento y qué recibió?",
+        "¿En qué nodo se eligieron los campos de la respuesta?",
+        "¿Qué sabemos realmente cuando el inventario dice sin señal?",
+        "¿Qué habría que verificar antes de actuar?"
+      ],
+      "resultado": "Distinguir el dato observado de una hipótesis y reconocer cuándo verificar o escalar."
+    }
+  ],
+  "flujo_general": [
+    "Presentar el caso",
+    "Crear y cargar la tabla de Inventario",
+    "Crear y activar la API",
+    "Probar la API desde el navegador",
+    "Consultar la API desde Seguimiento",
+    "Comprobar qué datos se comparten",
+    "Separar hechos, hipótesis y verificaciones pendientes"
+  ],
+  "seguridad": [
+    "Usar datos ficticios.",
+    "La API de práctica no tiene autenticación; no usar datos reales ni abrirla a internet.",
+    "El estado sin señal es un dato del inventario, no un diagnóstico confirmado.",
+    "Pedir autorización o escalar las acciones que excedan el alcance permitido."
+  ],
+  "si_falta_tiempo": "Omitir la actividad con IA. Mantener la prueba de CAM-99 y el cierre."
+}
