@@ -1,0 +1,270 @@
+{
+  "name": "Clase 9 - Inventario crear tabla y API",
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "table",
+        "operation": "create",
+        "tableName": "equipos_clase9",
+        "columns": {
+          "column": [
+            {
+              "name": "codigo",
+              "type": "string"
+            },
+            {
+              "name": "ubicacion",
+              "type": "string"
+            },
+            {
+              "name": "estado",
+              "type": "string"
+            },
+            {
+              "name": "nota_interna",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {
+          "createIfNotExists": true
+        }
+      },
+      "id": "n1-crear-tabla-0000-0000-000000000001",
+      "name": "1- Crear tabla",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [-960, 0]
+    },
+    {
+      "parameters": {
+        "resource": "row",
+        "operation": "insert",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "name",
+          "value": "equipos_clase9"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "codigo": "CAM-01",
+            "ubicacion": "Recepción",
+            "estado": "operativa",
+            "nota_interna": "Control mensual OK"
+          }
+        }
+      },
+      "id": "n2-cargar-cam01-0000-0000-000000000002",
+      "name": "2- Cargar CAM-01",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [-720, 0]
+    },
+    {
+      "parameters": {
+        "resource": "row",
+        "operation": "insert",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "name",
+          "value": "equipos_clase9"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "codigo": "CAM-02",
+            "ubicacion": "Pasillo",
+            "estado": "sin señal",
+            "nota_interna": "Verificar alimentación y conexión"
+          }
+        }
+      },
+      "id": "n3-cargar-cam02-0000-0000-000000000003",
+      "name": "3- Cargar CAM-02",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [-480, 0]
+    },
+    {
+      "parameters": {
+        "resource": "row",
+        "operation": "insert",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "name",
+          "value": "equipos_clase9"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "codigo": "CAM-03",
+            "ubicacion": "Salón de juegos",
+            "estado": "operativa",
+            "nota_interna": "Lente con polvo"
+          }
+        }
+      },
+      "id": "n4-cargar-cam03-0000-0000-000000000004",
+      "name": "4- Cargar CAM-03",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [-240, 0]
+    },
+    {
+      "parameters": {
+        "httpMethod": "GET",
+        "path": "inventario/equipos",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "n5-webhook-0000-0000-000000000005",
+      "name": "Ventanilla (Webhook)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [-720, -260]
+    },
+    {
+      "parameters": {
+        "resource": "row",
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "name",
+          "value": "equipos_clase9"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "codigo",
+              "condition": "eq",
+              "keyValue": "={{ $json.query.codigo }}"
+            }
+          ]
+        },
+        "returnAll": false,
+        "limit": 1
+      },
+      "id": "n6-buscar-0000-0000-000000000006",
+      "name": "Buscar ficha",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [-460, -260]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f1-codigo",
+              "name": "codigo",
+              "value": "={{ $json.codigo }}",
+              "type": "string"
+            },
+            {
+              "id": "f2-ubicacion",
+              "name": "ubicacion",
+              "value": "={{ $json.ubicacion }}",
+              "type": "string"
+            },
+            {
+              "id": "f3-estado",
+              "name": "estado",
+              "value": "={{ $json.estado }}",
+              "type": "string"
+            }
+          ],
+          "includeOtherFields": false
+        },
+        "options": {}
+      },
+      "id": "n7-elegir-0000-0000-000000000007",
+      "name": "Elegir qué se comparte",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [-200, -260]
+    },
+    {
+      "parameters": {
+        "respondWith": "firstIncomingItem"
+      },
+      "id": "n8-responder-0000-0000-000000000008",
+      "name": "Responder",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [60, -260]
+    }
+  ],
+  "connections": {
+    "1- Crear tabla": {
+      "main": [
+        [
+          {
+            "node": "2- Cargar CAM-01",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2- Cargar CAM-01": {
+      "main": [
+        [
+          {
+            "node": "3- Cargar CAM-02",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3- Cargar CAM-02": {
+      "main": [
+        [
+          {
+            "node": "4- Cargar CAM-03",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ventanilla (Webhook)": {
+      "main": [
+        [
+          {
+            "node": "Buscar ficha",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar ficha": {
+      "main": [
+        [
+          {
+            "node": "Elegir qué se comparte",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Elegir qué se comparte": {
+      "main": [
+        [
+          {
+            "node": "Responder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

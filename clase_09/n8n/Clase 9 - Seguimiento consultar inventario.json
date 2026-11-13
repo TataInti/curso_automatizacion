@@ -1,0 +1,52 @@
+{
+  "name": "Clase 9 - Seguimiento consultar inventario",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "n1-manual-0000-0000-000000000001",
+      "name": "Inicio manual",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [-580, 0]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "http://127.0.0.1:5678/webhook/inventario/equipos",
+        "sendQuery": true,
+        "specifyQuery": "keypair",
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "codigo",
+              "value": "CAM-02"
+            }
+          ]
+        },
+        "authentication": "none",
+        "options": {}
+      },
+      "id": "n2-consultar-0000-0000-000000000002",
+      "name": "Consultar inventario",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [-340, 0]
+    }
+  ],
+  "connections": {
+    "Inicio manual": {
+      "main": [
+        [
+          {
+            "node": "Consultar inventario",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
